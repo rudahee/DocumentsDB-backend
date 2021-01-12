@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,8 +18,11 @@ import com.docdb.model.entity.base.BaseEntity;
 @Entity
 public class User extends BaseEntity {
 	
+	@Column(unique = true, nullable = false)
 	private String username;
+	@Column(nullable = false)
 	private String password;
+	@Column(nullable = false)
 	private String email;
 	
 	private String token;
@@ -36,6 +40,7 @@ public class User extends BaseEntity {
 
 	public User() {
 		super();
+		this.token = UUID.randomUUID().toString();
 	}
 
 	public String getUsername() {
@@ -62,22 +67,6 @@ public class User extends BaseEntity {
 		this.email = email;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public void generateToken() {
-		this.token = UUID.randomUUID().toString().replace("-", "");
-	}
-
-	public LocalDateTime getLastLogin() {
-		return lastLogin;
-	}
-
-	public void generateLastLogin() {
-		this.lastLogin = LocalDateTime.now();
-	}
-
 	public List<Course> getCourses() {
 		return courses;
 	}
@@ -94,6 +83,18 @@ public class User extends BaseEntity {
 		this.image = image;
 	}
 	
+	public void generateLastLogin() {
+		this.lastLogin = LocalDateTime.now();
+	}
+
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [" + (super.getId() != null ? "id=" + super.getId() + ", " : "")
@@ -105,6 +106,7 @@ public class User extends BaseEntity {
 				+ (lastLogin != null ? "lastLogin=" + lastLogin + ", " : "")
 				+ (courses != null ? "course=" + courses : "") + "]";
 	}
+
 
 	
 	
