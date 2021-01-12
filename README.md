@@ -32,7 +32,7 @@ User __ Curso __ Asignatura __ Evento
  * ### Diagramas
 
    * #### **Diagrama de clase**
-
+![Diagrama](https://imgur.com/ERj1lgG.png)
 ---
 ## Requisitos
 
