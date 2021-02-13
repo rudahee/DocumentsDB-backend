@@ -52,16 +52,4 @@ public class Topic  extends BaseEntity {
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
-
-	@Override
-	public String toString() {
-		return "Topic [" + (super.getId() != null ? "id=" + super.getId() + ", " : "") 
-				+ (super.getName() != null ? "name=" + super.getName() + ", " : "")
-				+ (description != null ? "description=" + description + ", " : "")
-				+ (subjects != null ? "subjects=" + subjects + ", " : "") 
-				+ (notes != null ? "notes=" + notes : "")
-				+ "]";
-	}
-	
-	
 }

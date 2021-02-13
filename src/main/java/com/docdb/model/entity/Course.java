@@ -20,7 +20,7 @@ public class Course extends BaseEntity {
 	private LocalDateTime lastModification;
 
 	@ManyToMany(mappedBy="courses")
-	private List<User> users;
+	private List<Customer> customers;
 	
     @OneToMany(mappedBy="course")
     private List<Subject> subjects;
@@ -28,10 +28,10 @@ public class Course extends BaseEntity {
 	
 	public Course() {
 		super();
-		users = new ArrayList<User>();
+		customers = new ArrayList<Customer>();
 		subjects = new ArrayList<Subject>();
 	}
-
+	
 	public Boolean getOpen() {
 		return open;
 	}
@@ -56,12 +56,12 @@ public class Course extends BaseEntity {
 		this.lastModification = lastModification;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public List<Customer> getUsers() {
+		return customers;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setUsers(List<Customer> customers) {
+		this.customers = customers;
 	}
 
 	public List<Subject> getSubjects() {
@@ -71,20 +71,6 @@ public class Course extends BaseEntity {
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
-
-	@Override
-	public String toString() {
-		return "Course [" + (super.getId() != null ? "id=" + super.getId() + ", " : "")
-				+ (open != null ? "open=" + open + ", " : "")
-				+ (super.getName() != null ? "name=" + super.getName() + ", " : "")
-				+ (description != null ? "description=" + description + ", " : "")
-				+ (lastModification != null ? "lastModification=" + lastModification + ", " : "")
-				+ (users != null ? "users=" + users + ", " : "") 
-				+ (subjects != null ? "subjects=" + subjects : "")
-				+ "]";
-	}
-	
-	
 }
 
 	

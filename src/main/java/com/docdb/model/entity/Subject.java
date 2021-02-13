@@ -64,17 +64,5 @@ public class Subject extends BaseEntity {
 	public void setTopics(List<Topic> topics) {
 		this.topics = topics;
 	}
-
-	@Override
-	public String toString() {
-		return "Subject [" + (super.getId() != null ? "id=" + super.getId() + ", " : "") 
-				+ (super.getName() != null ? "name=" + super.getName() + ", " : "")
-				+ (lastModification != null ? "lastModification=" + lastModification + ", " : "")
-				+ (events != null ? "events=" + events + ", " : "") 
-				+ (topics != null ? "topics=" + topics : "") + "]";
-	}
-	
-	
-	
 	
 }

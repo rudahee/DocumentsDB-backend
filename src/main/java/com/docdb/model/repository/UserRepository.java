@@ -7,7 +7,6 @@ import com.docdb.model.repository.base.BaseRepository;
 @Repository
 public interface UserRepository extends BaseRepository<User, Integer>{
 
-	User findByUsernameAndPassword(String username, String password);
+	User findByUsername(String username);
 	
-	User findByToken(String token);
 }

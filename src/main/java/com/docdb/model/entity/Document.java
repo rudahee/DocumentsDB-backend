@@ -23,7 +23,7 @@ public class Document extends BaseEntity {
 	private Note note;
 	
     @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
-	private User user;
+	private Customer customer;
 	
 	public Document() {
 		super();
@@ -45,12 +45,12 @@ public class Document extends BaseEntity {
 		this.size = fileSize;
 	}
 
-	public User getUser() {
-		return user;
+	public Customer getUser() {
+		return this.customer;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Note getNote() {

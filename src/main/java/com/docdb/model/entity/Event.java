@@ -50,15 +50,6 @@ public class Event extends BaseEntity {
 		this.subject = subject;
 	}
 
-	@Override
-	public String toString() {
-		return "Event [" + (super.getId() != null ? "id=" + super.getId() + ", " : "") 
-				+ (super.getName() != null ? "name=" + super.getName() + ", " : "")
-				+ (description != null ? "description=" + description + ", " : "")
-				+ (done != null ? "done=" + done + ", " : "") 
-				+ (subject != null ? "subject=" + subject : "") + "]";
-	}
-
 	public LocalDateTime getTime() {
 		return time;
 	}

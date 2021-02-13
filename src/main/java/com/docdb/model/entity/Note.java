@@ -67,16 +67,6 @@ public class Note extends BaseEntity {
 		this.images = images;
 	}
 
-	@Override
-	public String toString() {
-		return "Note [" + (super.getId() != null ? "id=" + super.getId() + ", " : "") 
-				+ (super.getName() != null ? "name=" + super.getName() + ", " : "")
-				+ (description != null ? "description=" + description + ", " : "")
-				+ (text != null ? "text=" + text + ", " : "")
-				+ (documents != null ? "documents=" + documents + ", " : "")
-				+ (images != null ? "images=" + images : "") + "]";
-	}
-
 	public Topic getTopic() {
 		return topic;
 	}

@@ -1,6 +1,9 @@
 package com.docdb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.docdb.model.entity.User;
@@ -9,8 +12,8 @@ import com.docdb.model.repository.base.BaseRepository;
 import com.docdb.service.base.BasePersistenceService;
 
 @Service
-public class UserService extends BasePersistenceService<User, Integer> {
-			
+public class UserService extends BasePersistenceService<User, Integer> implements UserDetailsService {
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -18,16 +21,13 @@ public class UserService extends BasePersistenceService<User, Integer> {
 		super(baseRepository);
 	}
 
-	public User findByUsernameAndPassword(String username, String password) {
-		User user = userRepository.findByUsernameAndPassword(username, password);
-		user.generateLastLogin();
-		
-		baseRepository.save(user);
-		
-		return user;
+	public User getUserById(Integer idUser) {
+		return baseRepository.findById(idUser).get();
 	}
-	
-	public User find(String token) {
-		return userRepository.findByToken(token);
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return userRepository.findByUsername(username);
 	}
+
 }
