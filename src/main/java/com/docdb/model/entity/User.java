@@ -56,7 +56,7 @@ public class User extends BaseEntity implements UserDetails {
 	private String username;
 	@Column(nullable = false)
 	private String password;
-	@Column(nullable = false)
+	@Column(unique = true, nullable = false)
 	private String email;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -73,6 +73,9 @@ public class User extends BaseEntity implements UserDetails {
 		this.setEnableAccount(true);
 		this.roles = new HashSet<UserRole>();
 		this.roles.add(UserRole.USER);
+		this.createTime = LocalDateTime.now();
+		this.updateTime = LocalDateTime.now();
+		this.deleteTime = LocalDateTime.now().plusYears(20);
 	}
 
 	@Override
@@ -82,7 +85,13 @@ public class User extends BaseEntity implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return this.deleteTime.isBefore(LocalDateTime.now());
+		Boolean expired = false;
+		if (deleteTime == null) {
+			expired = true;
+		} else {
+			expired = this.deleteTime.isAfter(LocalDateTime.now());			
+		}
+		return expired;
 	}
 
 	@Override
@@ -93,7 +102,13 @@ public class User extends BaseEntity implements UserDetails {
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return (this.lastPasswordChange.isBefore(this.nextPasswordChange));
+		boolean expired = false;
+		if (deleteTime == null) {
+			expired = true;
+		} else {
+			expired = this.lastPasswordChange.isBefore(this.nextPasswordChange);			
+		}
+		return expired;
 	}
 
 	@Override

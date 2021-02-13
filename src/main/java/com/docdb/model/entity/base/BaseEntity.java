@@ -12,7 +12,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class BaseEntity implements Serializable {
 
 	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Integer id;
 	
 	
