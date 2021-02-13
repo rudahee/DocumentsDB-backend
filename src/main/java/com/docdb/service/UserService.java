@@ -24,6 +24,10 @@ public class UserService extends BasePersistenceService<User, Integer> implement
 	public User getUserById(Integer idUser) {
 		return baseRepository.findById(idUser).get();
 	}
+	
+	public User findByUsernameAndPassword(String username, String password) {
+		return userRepository.findByUsernameAndPassword(username, password);
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

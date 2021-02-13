@@ -11,8 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.docdb.controller.base.BaseController;
 import com.docdb.model.entity.User;
-import com.docdb.model.entity.dto.LoginDataDTO;
+import com.docdb.model.entity.dto.LoginDataReceivedDTO;
 import com.docdb.model.entity.dto.UserReceivedDTO;
+import com.docdb.model.enumerated.ErrorCode;
 import com.docdb.service.UserService;
 
 @RestController
@@ -21,19 +22,51 @@ public class UserController extends BaseController<User, UserService> {
 	
 	@Autowired
 	private UserService userService;
-
+	
 	@PostMapping("/sign-up")
 	public ResponseEntity<?> signUp(@RequestBody UserReceivedDTO userDTO) {
 		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body("");
+			ResponseEntity<?> response;
+			if (super.dtoChecker.checkUserReceivedDTO(userDTO)) {
+				if (super.validator.CheckUserOrEmailDoesntExists(userDTO.getUsername(), userDTO.getEmail())) {
+					response =  ResponseEntity.status(HttpStatus.CREATED).body(
+							super.dtoConverter.fromUserToUserSentDTO(
+									userService.save(
+											super.dtoConverter.fromUserReceivedDTOToUser(userDTO))));									
+				} else {
+					response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.USER_ALREADY_EXIST);
+				}
+			} else {
+				response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.BAD_REGISTER);
+			}
+			
+			return response;
 		}catch(Exception ex) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("/sign-in")
-	public ResponseEntity<?> login(@RequestBody LoginDataDTO loginDataDTO){
-		return ResponseEntity.status(HttpStatus.OK).body("");
+	public ResponseEntity<?> SignIn(@RequestBody LoginDataReceivedDTO loginDataDTO){
+		try {
+			ResponseEntity<?> response;
+			if (super.dtoChecker.checkLoginDataDTO(loginDataDTO)) {
+				if (super.validator.CheckUserExists(loginDataDTO.getUsername())) {
+					super.dtoConverter.fromUserToUserSentDTO(
+							userService.findByUsernameAndPassword(
+									loginDataDTO.getUsername(), loginDataDTO.getPassword()));
+					response =  ResponseEntity.ok().build();
+				} else {
+					response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorCode.INCORRECT_LOGIN);
+				}
+			} else {
+				response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.BAD_LOGIN);
+			}
+			
+			return response;
+		}catch(Exception ex) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }
