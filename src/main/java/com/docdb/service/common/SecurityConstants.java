@@ -1,4 +1,4 @@
-package com.docdb.service.security.common;
+package com.docdb.service.common;
 
 public class SecurityConstants {
 	public static final String SECRET = "kYp3s6v9y$B&E)H@McQeThWmZq4t7w!z%C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPe";

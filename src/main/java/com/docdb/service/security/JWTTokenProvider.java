@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 import com.docdb.model.entity.User;
-import com.docdb.service.security.common.SecurityConstants;
+import com.docdb.service.common.SecurityConstants;
 
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -27,6 +27,9 @@ private static SecretKey key;
 				.compact();
 	}
 	
+	public static Integer getIdFromToken(String token) {
+		return Integer.parseInt((String) Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().get("jti"));
+	}
 	
 	public static boolean validateToken(String token) {
 		boolean valid = false;
@@ -34,7 +37,7 @@ private static SecretKey key;
 			Jwts.parser().setSigningKey(getKey()).parseClaimsJws(token);
 			valid = true;
 		}catch (Exception e) {
-			//ToDo report on error type
+			System.out.println("Token not valid: " + token);
 		}
 		return valid;
 	}

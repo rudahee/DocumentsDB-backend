@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.docdb.model.entity.User;
 import com.docdb.model.entity.dto.UserReceivedDTO;
-import com.docdb.service.security.common.SecurityConstants;
+import com.docdb.service.common.SecurityConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebFilter

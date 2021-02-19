@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.docdb.model.entity.Course;
 import com.docdb.model.entity.User;
+import com.docdb.model.entity.dto.CourseDTO;
 import com.docdb.model.entity.dto.UserReceivedDTO;
 import com.docdb.model.entity.dto.UserSentDTO;
 
@@ -44,5 +46,19 @@ public class DTOConverter {
 		dto.setUpdateTime(user.getUpdateTime());
 		
 		return dto;
+	}
+	
+	public CourseDTO fromCourseToCourseDTO(Course course) {
+		return new CourseDTO(course.getOpen(), course.getName(), course.getDescription(), course.getLastModification());
+	}
+	
+	public Course fromCourseDTOToCourse(CourseDTO dto) {
+		Course course = new Course();
+		
+		course.setName(dto.getName());
+		course.setDescription(dto.getDescription());
+		course.setOpen(dto.getOpen());
+		
+		return course;
 	}
 }

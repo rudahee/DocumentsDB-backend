@@ -37,7 +37,7 @@ public class UserController extends BaseController<User, UserService> {
 					response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.USER_ALREADY_EXIST);
 				}
 			} else {
-				response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.BAD_REGISTER);
+				response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.FIELD_IS_MISSING);
 			}
 			
 			return response;
@@ -60,7 +60,7 @@ public class UserController extends BaseController<User, UserService> {
 					response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorCode.INCORRECT_LOGIN);
 				}
 			} else {
-				response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.BAD_LOGIN);
+				response = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ErrorCode.FIELD_IS_MISSING);
 			}
 			
 			return response;

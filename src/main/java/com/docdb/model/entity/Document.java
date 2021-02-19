@@ -15,8 +15,11 @@ import com.docdb.model.entity.base.BaseEntity;
 @Entity
 public class Document extends BaseEntity {
 
-	private Blob image;
-	private Integer size;
+	private Blob data;
+	private Long size;
+	private String name;
+	private String contentType;
+
 	
 	@ManyToOne(optional=true, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="note_id")
@@ -29,28 +32,36 @@ public class Document extends BaseEntity {
 		super();
 	}
 
-	public Blob getImage() {
-		return image;
+	public Blob getData() {
+		return data;
 	}
 
-	public void setImage(Blob image) {
-		this.image = image;
+	public void setData(Blob data) {
+		this.data = data;
 	}
 
-	public Integer getFileSize() {
+	public Long getSize() {
 		return size;
 	}
 
-	public void setFileSize(Integer fileSize) {
-		this.size = fileSize;
+	public void setSize(Long size) {
+		this.size = size;
 	}
 
-	public Customer getUser() {
-		return this.customer;
+	public String getName() {
+		return name;
 	}
 
-	public void setUser(Customer customer) {
-		this.customer = customer;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 
 	public Note getNote() {
@@ -60,4 +71,14 @@ public class Document extends BaseEntity {
 	public void setNote(Note note) {
 		this.note = note;
 	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+
 }

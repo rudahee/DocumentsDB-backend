@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.docdb.model.entity.User;
 import com.docdb.service.UserService;
-import com.docdb.service.security.common.SecurityConstants;
+import com.docdb.service.common.SecurityConstants;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -65,7 +65,7 @@ public class FilterJWT extends OncePerRequestFilter {
 					upat = new UsernamePasswordAuthenticationToken(idUser, user.getRoles(), user.getAuthorities());
 				}
 			} catch (AuthenticationException e) {
-				throw new RuntimeException("No user identifier has been found in the request");
+				throw new RuntimeException("Authentication Error.");
 			}
 		}
 

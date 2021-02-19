@@ -3,11 +3,9 @@ package com.docdb.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.docdb.model.entity.base.BaseEntity;
@@ -23,10 +21,7 @@ public class Customer extends BaseEntity {
     @JoinColumn(name="image_id")
 	private Document image;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "customer_course",
-		joinColumns = @JoinColumn(name="course_id", referencedColumnName="id"),
-		inverseJoinColumns = @JoinColumn(name="customer_id", referencedColumnName="id"))
+	@OneToMany(mappedBy="customer")
 	private List<Course> courses;
 	
 	public Customer() {

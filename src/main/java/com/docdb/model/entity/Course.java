@@ -5,30 +5,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.docdb.model.entity.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity
 public class Course extends BaseEntity {
 
 	private Boolean open;
+	private String name;
 	private String description;
 	
 	private LocalDateTime lastModification;
 
-	@ManyToMany(mappedBy="courses")
-	private List<Customer> customers;
-	
+	@ManyToOne
+	@JoinColumn(name="customer_id")
+	private Customer customer;
     @OneToMany(mappedBy="course")
     private List<Subject> subjects;
-	
-	
+    
 	public Course() {
 		super();
-		customers = new ArrayList<Customer>();
+	}
+
+	public Course(Customer customer) {
+		super();
+		this.customer = customer ;
 		subjects = new ArrayList<Subject>();
 	}
 	
@@ -56,12 +62,12 @@ public class Course extends BaseEntity {
 		this.lastModification = lastModification;
 	}
 
-	public List<Customer> getUsers() {
-		return customers;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setUsers(List<Customer> customers) {
-		this.customers = customers;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public List<Subject> getSubjects() {
@@ -70,6 +76,14 @@ public class Course extends BaseEntity {
 
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
 

@@ -210,6 +210,15 @@ public class User extends BaseEntity implements UserDetails {
 
 	public LocalDateTime getUpdateTime() {
 		return updateTime;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}	
+	
 	
 }

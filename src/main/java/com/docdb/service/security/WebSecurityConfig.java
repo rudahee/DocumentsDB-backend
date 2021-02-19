@@ -14,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.docdb.service.UserService;
-import com.docdb.service.security.common.SecurityConstants;
+import com.docdb.service.common.SecurityConstants;
 
 
 @Configuration
@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.cors().and().csrf().disable().authorizeRequests()
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_IN).permitAll()
+			.antMatchers(HttpMethod.POST, "/course/add").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilter(new AuthJWT(authenticationManagerBean()))
