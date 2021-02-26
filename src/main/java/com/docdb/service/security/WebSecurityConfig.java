@@ -42,12 +42,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.cors().and().csrf().disable().authorizeRequests()
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_IN).permitAll()
-			.antMatchers(HttpMethod.POST, "/course/add").permitAll()
+			.antMatchers(HttpMethod.POST, "/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilter(new AuthJWT(authenticationManagerBean()))
 			.addFilterBefore(filterJWT, BasicAuthenticationFilter.class)
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	             
 	}
 	
 	@Override

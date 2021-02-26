@@ -14,19 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.docdb.controller.interfaces.IBaseController;
 import com.docdb.model.entity.base.BaseEntity;
+import com.docdb.model.entity.dto.BaseDTO;
+import com.docdb.model.enumerated.ErrorCode;
 import com.docdb.service.base.BasePersistenceService;
-import com.docdb.service.util.DTOChecker;
-import com.docdb.service.util.DTOConverter;
-import com.docdb.service.util.Validators;
+import com.docdb.service.util.dto.DTOConverter;
+import com.docdb.service.util.impl.DTOChecker;
+import com.docdb.service.util.impl.Validators;
 
-public abstract class BaseController <T extends BaseEntity, S extends BasePersistenceService<T, Integer>> implements
+public abstract class BaseController <T extends BaseEntity, D extends BaseDTO, S extends BasePersistenceService<T, D, Integer>> implements
 IBaseController<T, Integer> {
 
 	@Autowired
 	protected S service;
 	
 	@Autowired
-	protected DTOConverter dtoConverter;
+	protected DTOConverter<T, D> dtoConverter;
 	
 	@Autowired
 	protected DTOChecker dtoChecker;
@@ -51,9 +53,11 @@ IBaseController<T, Integer> {
 	
 	@PostMapping("")
 	public ResponseEntity<?> save(@RequestBody T entity) {
-		service.save(entity);
-		HttpStatus status = HttpStatus.OK;
-		return ResponseEntity.status(status).body(entity);
+		try {
+			return ResponseEntity.status(HttpStatus.CREATED).body(service.save(entity));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorCode.INDETERMINATE_ERROR);
+		}
 	}
 	
 	@PutMapping("/{id}")

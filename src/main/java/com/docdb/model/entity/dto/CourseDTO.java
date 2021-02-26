@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class CourseDTO {
+public class CourseDTO extends BaseDTO {
 	private Boolean open;
 	private String name;
 	private String description;

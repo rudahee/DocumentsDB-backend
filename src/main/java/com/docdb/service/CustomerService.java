@@ -4,15 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.docdb.exception.UserException;
 import com.docdb.model.entity.Customer;
 import com.docdb.model.entity.Document;
+import com.docdb.model.entity.dto.CustomerDTO;
 import com.docdb.model.repository.CustomerRepository;
 import com.docdb.model.repository.base.BaseRepository;
 import com.docdb.service.base.BasePersistenceService;
-import com.docdb.service.util.FileHandlerService;
+import com.docdb.service.util.impl.FileHandlerService;
 
 @Service
-public class CustomerService extends BasePersistenceService<Customer, Integer> {
+public class CustomerService extends BasePersistenceService<Customer, CustomerDTO, Integer> {
 
 	@Autowired
 	private FileHandlerService fileHandlerService;
@@ -30,7 +32,7 @@ public class CustomerService extends BasePersistenceService<Customer, Integer> {
 		super(baseRepository);
 	}
 		
-	public Customer addDocument(MultipartFile mpf, String id) {
+	public Customer addDocument(MultipartFile mpf, String id) throws UserException {
 		
 		Document document = new Document();
 		

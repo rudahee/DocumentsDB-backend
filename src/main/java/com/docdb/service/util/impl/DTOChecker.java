@@ -1,14 +1,14 @@
-package com.docdb.service.util;
+package com.docdb.service.util.impl;
 
 import org.springframework.stereotype.Service;
 
 import com.docdb.model.entity.dto.LoginDataReceivedDTO;
-import com.docdb.model.entity.dto.UserReceivedDTO;
+import com.docdb.model.entity.dto.UserDTO;
 
 @Service
 public class DTOChecker {
 
-	public Boolean checkUserReceivedDTO(UserReceivedDTO dto) {
+	public Boolean checkUserReceivedDTO(UserDTO dto) {
 		Boolean valid;
 		if (dto.getUsername() == null || dto.getUsername().isBlank()) {
 			valid = false;

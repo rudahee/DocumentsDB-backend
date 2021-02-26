@@ -1,23 +1,20 @@
-package com.docdb.service.util;
+package com.docdb.service.util.dto.converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
-import com.docdb.model.entity.Course;
 import com.docdb.model.entity.User;
-import com.docdb.model.entity.dto.CourseDTO;
-import com.docdb.model.entity.dto.UserReceivedDTO;
-import com.docdb.model.entity.dto.UserSentDTO;
+import com.docdb.model.entity.dto.UserDTO;
+import com.docdb.service.util.dto.DTOConverter;
 
-@Component
-public class DTOConverter {
+public class UserConverter extends DTOConverter<User, UserDTO>{
 
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public User fromUserReceivedDTOToUser(UserReceivedDTO dto) {
+	@Override
+	public User fromDto(UserDTO dto) {
 		User user  = new User();
 		
 		user.setUsername(dto.getUsername());
@@ -30,8 +27,8 @@ public class DTOConverter {
 		return user;
 	}
 	
-	public UserSentDTO fromUserToUserSentDTO(User user) {
-		UserSentDTO dto = new UserSentDTO();
+	public UserDTO fromEntity(User user) {
+		UserDTO dto = new UserDTO();
 		
 		dto.setEmail(user.getEmail());
 		dto.setUsername(user.getUsername());
@@ -48,17 +45,6 @@ public class DTOConverter {
 		return dto;
 	}
 	
-	public CourseDTO fromCourseToCourseDTO(Course course) {
-		return new CourseDTO(course.getOpen(), course.getName(), course.getDescription(), course.getLastModification());
-	}
+
 	
-	public Course fromCourseDTOToCourse(CourseDTO dto) {
-		Course course = new Course();
-		
-		course.setName(dto.getName());
-		course.setDescription(dto.getDescription());
-		course.setOpen(dto.getOpen());
-		
-		return course;
-	}
 }

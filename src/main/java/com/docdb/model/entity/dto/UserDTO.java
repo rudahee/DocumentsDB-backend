@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class UserSentDTO {
+public class UserDTO extends BaseDTO {
 
 	private String name;
 	private String surname;
@@ -26,11 +26,11 @@ public class UserSentDTO {
 	
 	private Set<UserRole> roles;
 	
-	public UserSentDTO() {
+	public UserDTO() {
 		super();
 	}
 
-	public UserSentDTO(String name, String surname, Integer age, String username, String password, String email,
+	public UserDTO(String name, String surname, Integer age, String username, String password, String email,
 			LocalDateTime createTime, LocalDateTime updateTime, LocalDateTime lastPasswordChange,
 			LocalDateTime nextPasswordChange, Set<UserRole> roles) {
 		super();

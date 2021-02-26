@@ -1,4 +1,4 @@
-package com.docdb.service.util;
+package com.docdb.service.util.impl;
 
 import java.sql.Blob;
 

@@ -5,16 +5,28 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.docdb.exception.UserException;
 import com.docdb.model.entity.base.BaseEntity;
+import com.docdb.model.entity.dto.BaseDTO;
 import com.docdb.model.repository.base.BaseRepository;
 import com.docdb.service.interfaces.IBasePersistenceService;
+import com.docdb.service.security.JWTTokenProvider;
+import com.docdb.service.util.dto.DTOConverter;
 
 
 @Transactional
-public abstract class BasePersistenceService<T extends BaseEntity, ID extends Serializable> implements IBasePersistenceService<T, ID> {
+public abstract class BasePersistenceService<T extends BaseEntity, D extends BaseDTO, ID extends Serializable> implements IBasePersistenceService<T, ID> {
 	
 	protected BaseRepository<T, ID> baseRepository;
 
+	@Autowired
+	protected DTOConverter<D, T> dtoConverter;
+	
+	@Autowired
+	protected JWTTokenProvider jwtService;
+	
 	public BasePersistenceService(BaseRepository<T, ID> baseRepository) {
 		this.baseRepository = baseRepository;
 	}
@@ -30,7 +42,7 @@ public abstract class BasePersistenceService<T extends BaseEntity, ID extends Se
 	}
 
 	@Override
-	public T save(T entity) {
+	public T save(T entity) throws UserException {
 		return baseRepository.save(entity);
 	}
 

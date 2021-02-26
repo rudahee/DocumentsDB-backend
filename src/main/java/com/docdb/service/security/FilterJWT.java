@@ -59,7 +59,7 @@ public class FilterJWT extends OncePerRequestFilter {
 						setSigningKey(Keys.hmacShaKeyFor(SecurityConstants.SECRET.getBytes()))
 						.parseClaimsJws(token).getBody().getId());
 				
-				User user = userService.getUserById(idUser);
+				User user = userService.find(idUser);
 				
 				if (idUser != null) {
 					upat = new UsernamePasswordAuthenticationToken(idUser, user.getRoles(), user.getAuthorities());

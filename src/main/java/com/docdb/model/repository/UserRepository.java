@@ -1,5 +1,7 @@
 package com.docdb.model.repository;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import com.docdb.model.entity.User;
@@ -13,5 +15,5 @@ public interface UserRepository extends BaseRepository<User, Integer>{
 	
 	Boolean existsByEmailIgnoreCase(String email);
 
-	User findByUsernameAndPassword(String username, String password);
+	Optional<User> findByUsernameAndPassword(String username, String password);
 }

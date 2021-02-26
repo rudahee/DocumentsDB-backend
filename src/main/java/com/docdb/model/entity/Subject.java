@@ -20,7 +20,8 @@ import com.docdb.model.entity.base.BaseEntity;
 public class Subject extends BaseEntity {
 	
 	private LocalDateTime lastModification;
-	
+	private String name;
+	private String acronym;
 	
 	@ManyToOne(optional=true, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="course_id")
@@ -64,5 +65,31 @@ public class Subject extends BaseEntity {
 	public void setTopics(List<Topic> topics) {
 		this.topics = topics;
 	}
+
+	public String getAcronym() {
+		return acronym;
+	}
+
+	public void setAcronym(String acronym) {
+		this.acronym = acronym;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+	
+	
 	
 }

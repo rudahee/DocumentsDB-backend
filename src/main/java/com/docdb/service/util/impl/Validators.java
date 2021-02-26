@@ -1,4 +1,4 @@
-package com.docdb.service.util;
+package com.docdb.service.util.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

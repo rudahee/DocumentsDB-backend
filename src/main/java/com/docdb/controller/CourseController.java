@@ -13,22 +13,16 @@ import com.docdb.controller.base.BaseController;
 import com.docdb.model.entity.Course;
 import com.docdb.model.entity.dto.CourseDTO;
 import com.docdb.service.CourseService;
-import com.docdb.service.security.JWTTokenProvider;
 
 @RestController
 @RequestMapping(path = "/course")
-public class CourseController  extends BaseController<Course, CourseService> {
+public class CourseController  extends BaseController<Course, CourseDTO, CourseService> {
 	
 	@PostMapping("/add")
 	public ResponseEntity<?> addCourse(HttpServletRequest request, @RequestBody CourseDTO dto) {
 		
+		String token = request.getHeader("Authorization").split(" ")[1]; 
 		
-		Integer id = JWTTokenProvider.getIdFromToken(request.getHeader("Authorization").split(" ")[1]); 
-				/*
-				 * Integer.parseInt(request.getUserPrincipal().getName());
-		*/
-		
-		System.out.println(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(super.dtoConverter.fromCourseToCourseDTO(service.addCourse(id, dto)));
+		return ResponseEntity.status(HttpStatus.CREATED).body(dtoConverter.fromEntity(service.save(token, dto)));
 	}
 }

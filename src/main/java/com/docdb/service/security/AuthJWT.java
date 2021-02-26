@@ -15,7 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.docdb.model.entity.User;
-import com.docdb.model.entity.dto.UserReceivedDTO;
+import com.docdb.model.entity.dto.UserDTO;
 import com.docdb.service.common.SecurityConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,9 +34,9 @@ public class AuthJWT extends UsernamePasswordAuthenticationFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		UserReceivedDTO user = null;
+		UserDTO user = null;
 		try {
-			user = new ObjectMapper().readValue(request.getInputStream(), UserReceivedDTO.class);
+			user = new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
 			
 
 		} catch (IOException e) {

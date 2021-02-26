@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.docdb.model.entity.base.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity
@@ -76,6 +75,10 @@ public class Course extends BaseEntity {
 
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
+	}
+	
+	public void addSubject(Subject subject) {
+		this.subjects.add(subject);
 	}
 
 	public String getName() {

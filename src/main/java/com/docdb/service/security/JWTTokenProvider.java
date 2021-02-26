@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.docdb.model.entity.User;
+import com.docdb.service.UserService;
 import com.docdb.service.common.SecurityConstants;
 
 import io.jsonwebtoken.Header;
@@ -13,7 +16,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 public class JWTTokenProvider {
-private static SecretKey key; 
+	
+	@Autowired
+	private UserService userService;
+	
+	private static SecretKey key; 
 	
 	public static String generateToken(User user) {
         return Jwts.builder()
@@ -27,9 +34,11 @@ private static SecretKey key;
 				.compact();
 	}
 	
-	public static Integer getIdFromToken(String token) {
-		return Integer.parseInt((String) Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().get("jti"));
+	public User getUserFromToken(String token) {
+		return userService.find(Integer.parseInt((String) Jwts.parser().
+				setSigningKey(key).parseClaimsJws(token).getBody().get("jti")));
 	}
+	
 	
 	public static boolean validateToken(String token) {
 		boolean valid = false;
