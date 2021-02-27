@@ -12,9 +12,9 @@ public enum ErrorCode implements Serializable {
 	
 	FIELD_IS_MISSING("Some required field is missing"),
 	USER_ALREADY_EXIST("This user or email already exists"),
-	INCORRECT_LOGIN("Incorrect username or password");
+	INCORRECT_LOGIN("Incorrect username or password"),
 	
-	
+	JWT_ERROR("Session failed, re-login");
 	
 	private final String message;
 
