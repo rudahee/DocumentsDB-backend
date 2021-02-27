@@ -18,7 +18,16 @@ public class Note extends BaseEntity {
 	
 	private String description;
 	private String text;
+	private String name;
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@ManyToOne(optional=true, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="topic_id")
 	private Topic topic;

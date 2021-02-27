@@ -13,7 +13,7 @@ import com.docdb.model.entity.base.BaseEntity;
 @Entity
 public class Topic  extends BaseEntity {
 	
-
+	private String name;
 	private String description;
 	
 	@ManyToMany(mappedBy = "topics")
@@ -44,6 +44,10 @@ public class Topic  extends BaseEntity {
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
 	}
+	
+	public void addSubject(Subject subject) {
+		this.subjects.add(subject);
+	}
 
 	public List<Note> getNotes() {
 		return notes;
@@ -51,5 +55,17 @@ public class Topic  extends BaseEntity {
 
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
+	}
+	
+	public void addNote(Note note) {
+		this.notes.add(note);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

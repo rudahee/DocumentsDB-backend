@@ -3,11 +3,11 @@ package com.docdb.exception;
 import com.docdb.model.enumerated.ErrorCode;
 
 @SuppressWarnings("serial")
-public class UserException extends Exception {
+public class JwtException extends Exception {
 
 	private final ErrorCode code;
 
-	public UserException(ErrorCode code) {
+	public JwtException(ErrorCode code) {
 		super();
 		this.code = code;
 	}

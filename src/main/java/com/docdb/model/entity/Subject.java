@@ -66,6 +66,10 @@ public class Subject extends BaseEntity {
 		this.topics = topics;
 	}
 
+	public void addTopic(Topic topic) {
+		this.topics.add(topic);
+	}
+	
 	public String getAcronym() {
 		return acronym;
 	}
