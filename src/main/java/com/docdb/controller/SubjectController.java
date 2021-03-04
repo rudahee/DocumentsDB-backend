@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.docdb.controller.base.BaseController;
@@ -18,10 +19,10 @@ import com.docdb.service.SubjectService;
 public class SubjectController extends BaseController<Subject, SubjectDTO, SubjectService> {
 
 	@PostMapping("/add")
-	public ResponseEntity<?> addSubject(Integer id, @RequestBody SubjectDTO dto) {
+	public ResponseEntity<?> addSubject(@RequestParam Integer course, @RequestBody SubjectDTO dto) {
 		
 		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body(dtoConverter.fromEntity(service.save(id, dto)));
+			return ResponseEntity.status(HttpStatus.CREATED).body(dtoConverter.fromEntity(service.save(course, dto)));
 		} catch (AddException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getCode());
 		}

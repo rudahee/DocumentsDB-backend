@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.docdb.model.entity.User;
@@ -32,19 +32,19 @@ public class AuthJWT extends UsernamePasswordAuthenticationFilter {
 	
 	
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
 		UserDTO user = null;
 		try {
 			user = new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
-			
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} catch (InternalAuthenticationServiceException e) {
+			System.out.println("Authentication Failed");
 		}
 		
-		return 	authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), 
-																						   user.getPassword()));
+		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				user.getUsername(), user.getPassword()));
 	}
 
 	@Override

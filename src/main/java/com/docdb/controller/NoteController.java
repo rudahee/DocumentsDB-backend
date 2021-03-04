@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.docdb.controller.base.BaseController;
@@ -18,10 +19,10 @@ import com.docdb.service.NoteService;
 public class NoteController  extends BaseController<Note, NoteDTO, NoteService> {
 
 	@PostMapping("/add")
-	public ResponseEntity<?> addTopic(Integer id, @RequestBody NoteDTO dto) {
+	public ResponseEntity<?> addTopic(@RequestParam Integer topic, @RequestBody NoteDTO dto) {
 		
 		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body(dtoConverter.fromEntity(service.save(id, dto)));
+			return ResponseEntity.status(HttpStatus.CREATED).body(dtoConverter.fromEntity(service.save(topic, dto)));
 		} catch (AddException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getCode());
 		}

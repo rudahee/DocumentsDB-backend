@@ -11,11 +11,13 @@ import com.docdb.model.entity.dto.CustomerDTO;
 import com.docdb.model.repository.CustomerRepository;
 import com.docdb.model.repository.base.BaseRepository;
 import com.docdb.service.base.BasePersistenceService;
+import com.docdb.service.util.dto.DTOConverter;
 import com.docdb.service.util.impl.FileHandlerService;
 
 @Service
 public class CustomerService extends BasePersistenceService<Customer, CustomerDTO, Integer> {
 
+	
 	@Autowired
 	private FileHandlerService fileHandlerService;
 	
@@ -28,8 +30,8 @@ public class CustomerService extends BasePersistenceService<Customer, CustomerDT
 	@Autowired
 	private UserService userService;
 	
-	public CustomerService(BaseRepository<Customer, Integer> baseRepository) {
-		super(baseRepository);
+	public CustomerService(BaseRepository<Customer, Integer> baseRepository, DTOConverter<Customer, CustomerDTO> dtoConverter) {
+		super(baseRepository, dtoConverter);
 	}
 		
 	public Customer addDocument(MultipartFile mpf, String id) throws UserException {

@@ -18,6 +18,7 @@ public class Course extends BaseEntity {
 	private Boolean open;
 	private String name;
 	private String description;
+	private String acronym;
 	
 	private LocalDateTime lastModification;
 
@@ -87,6 +88,14 @@ public class Course extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAcronym() {
+		return acronym;
+	}
+
+	public void setAcronym(String acronym) {
+		this.acronym = acronym;
 	}
 }
 

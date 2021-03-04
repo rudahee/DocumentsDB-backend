@@ -1,6 +1,7 @@
 package com.docdb.model.entity.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -10,17 +11,18 @@ public class CourseDTO extends BaseDTO {
 	private Boolean open;
 	private String name;
 	private String description;
+	private String acronym;
+	
+	private List<SubjectDTO> subjectsDTO;
 	
 	private LocalDateTime lastModification;
 	
-	public CourseDTO() {
-		super();
-	}
 
-	public CourseDTO(Boolean open, String name, String description, LocalDateTime lastModification) {
-		super();
+	public CourseDTO(Integer id, Boolean open, String acronym, String name, String description, LocalDateTime lastModification) {
+		super(id);
 		this.open = open;
 		this.name = name;
+		this.acronym = acronym;
 		this.description = description;
 		this.lastModification = lastModification;
 	}
@@ -61,6 +63,22 @@ public class CourseDTO extends BaseDTO {
 
 	public void setLastModification(LocalDateTime lastModification) {
 		this.lastModification = lastModification;
+	}
+
+	public String getAcronym() {
+		return acronym;
+	}
+
+	public void setAcronym(String acronym) {
+		this.acronym = acronym;
+	}
+
+	public List<SubjectDTO> getSubjectsDTO() {
+		return subjectsDTO;
+	}
+
+	public void setSubjectDTO(List<SubjectDTO> subjectsDTO) {
+		this.subjectsDTO = subjectsDTO;
 	}
 	
 	

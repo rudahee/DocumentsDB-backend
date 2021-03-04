@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,4 +41,23 @@ public class CourseController  extends BaseController<Course, CourseDTO, CourseS
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getCode());
 		}
 	}
+	
+	@GetMapping("")
+	public ResponseEntity<?> findAll(HttpServletRequest request) {
+		String token;
+		
+		try {
+			if (request.getHeader("Authorization") != null) {
+				token = request.getHeader("Authorization").split(" ")[1]; 
+			} else {
+				throw new JwtException(ErrorCode.JWT_ERROR);
+			}
+			
+			return ResponseEntity.status(HttpStatus.CREATED).body(dtoConverter.fromEntities(service.findAll(token)));
+		
+		} catch (JwtException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getCode());
+		}
+	}
+	
 }

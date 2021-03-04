@@ -1,10 +1,19 @@
 package com.docdb.model.entity.dto;
 
+import java.util.List;
+
 public class NoteDTO extends BaseDTO {
+
+	@Override
+	public String toString() {
+		return "NoteDTO [description=" + description + ", text=" + text + ", name=" + name + ", documents=" + documents
+				+ "]";
+	}
 
 	private String description;
 	private String text;
 	private String name;
+	private List<DocumentDTO> documents;
 	
 	public NoteDTO(String description, String text, String name) {
 		super();
@@ -40,7 +49,12 @@ public class NoteDTO extends BaseDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
+
+	public List<DocumentDTO> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<DocumentDTO> documents) {
+		this.documents = documents;
+	}	
 }

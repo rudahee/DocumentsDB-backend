@@ -1,5 +1,6 @@
 package com.docdb.controller.base;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,6 @@ import com.docdb.model.entity.dto.BaseDTO;
 import com.docdb.model.enumerated.ErrorCode;
 import com.docdb.service.base.BasePersistenceService;
 import com.docdb.service.util.dto.DTOConverter;
-import com.docdb.service.util.impl.DTOChecker;
-import com.docdb.service.util.impl.Validators;
 
 public abstract class BaseController <T extends BaseEntity, D extends BaseDTO, S extends BasePersistenceService<T, D, Integer>> implements
 IBaseController<T, Integer> {
@@ -30,25 +29,24 @@ IBaseController<T, Integer> {
 	@Autowired
 	protected DTOConverter<T, D> dtoConverter;
 	
-	@Autowired
-	protected DTOChecker dtoChecker;
-	
-	@Autowired
-	protected Validators validator;
-	
 	
 	@GetMapping("/all")
 	public ResponseEntity<?> findAll() {
 		List<T> entities = service.findAll();
 		HttpStatus status = HttpStatus.OK;
-		return ResponseEntity.status(status).body(entities);
+		List<D> dtos = new ArrayList<D>();
+		
+		entities.forEach(entity -> {
+			dtos.add(dtoConverter.fromEntity(entity) );
+		});
+		return ResponseEntity.status(status).body(dtos);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		T entity = service.find(id);
 		HttpStatus status = HttpStatus.OK;
-		return ResponseEntity.status(status).body(entity);
+		return ResponseEntity.status(status).body(dtoConverter.fromEntity(entity));
 	}
 	
 	@PostMapping("")

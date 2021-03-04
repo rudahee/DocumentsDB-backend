@@ -27,10 +27,10 @@ public class UserController extends BaseController<User, UserDTO, UserService> {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(
 					userService.save(super.dtoConverter.fromDto(dto)));
-		} catch(UserException ex) {
+		} catch (UserException ex) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(
 					ex.getCode());
-		}
+		} 
 	}
 
 	@PostMapping("/sign-in")

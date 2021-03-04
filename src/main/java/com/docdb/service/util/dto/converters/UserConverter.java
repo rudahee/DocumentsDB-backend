@@ -2,11 +2,13 @@ package com.docdb.service.util.dto.converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.docdb.model.entity.User;
 import com.docdb.model.entity.dto.UserDTO;
 import com.docdb.service.util.dto.DTOConverter;
 
+@Service
 public class UserConverter extends DTOConverter<User, UserDTO>{
 
 
@@ -30,6 +32,7 @@ public class UserConverter extends DTOConverter<User, UserDTO>{
 	public UserDTO fromEntity(User user) {
 		UserDTO dto = new UserDTO();
 		
+		dto.setId(user.getId());
 		dto.setEmail(user.getEmail());
 		dto.setUsername(user.getUsername());
 		dto.setPassword(user.getPassword());

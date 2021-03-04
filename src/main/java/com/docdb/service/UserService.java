@@ -15,6 +15,7 @@ import com.docdb.model.enumerated.ErrorCode;
 import com.docdb.model.repository.UserRepository;
 import com.docdb.model.repository.base.BaseRepository;
 import com.docdb.service.base.BasePersistenceService;
+import com.docdb.service.util.dto.DTOConverter;
 
 @Service
 public class UserService extends BasePersistenceService<User, UserDTO, Integer> implements UserDetailsService {
@@ -22,12 +23,13 @@ public class UserService extends BasePersistenceService<User, UserDTO, Integer> 
 	@Autowired
 	private UserRepository userRepository;
 	
-	public UserService(BaseRepository<User, Integer> baseRepository) {
-		super(baseRepository);
+	public UserService(BaseRepository<User, Integer> baseRepository, DTOConverter<User, UserDTO> dtoConverter) {
+		super(baseRepository, dtoConverter);
 	}
 	
 	@Override
 	public User save(User entity) throws UserException {
+		
 		if (entity.getPassword().isBlank() 
 				|| entity.getUsername().isBlank() 
 				|| entity.getEmail().isBlank()) {

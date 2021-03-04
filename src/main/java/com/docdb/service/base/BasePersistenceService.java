@@ -20,15 +20,16 @@ import com.docdb.service.util.dto.DTOConverter;
 public abstract class BasePersistenceService<T extends BaseEntity, D extends BaseDTO, ID extends Serializable> implements IBasePersistenceService<T, ID> {
 	
 	protected BaseRepository<T, ID> baseRepository;
-
-	@Autowired
-	protected DTOConverter<D, T> dtoConverter;
+	
+	protected DTOConverter<T, D> dtoConverter;
 	
 	@Autowired
 	protected JWTTokenProvider jwtService;
 	
-	public BasePersistenceService(BaseRepository<T, ID> baseRepository) {
+	public BasePersistenceService(BaseRepository<T, ID> baseRepository,
+			DTOConverter<T, D> dtoConverter) {
 		this.baseRepository = baseRepository;
+		this.dtoConverter = dtoConverter;
 	}
 	
 	@Override
