@@ -19,7 +19,7 @@ public class NoteConverter extends DTOConverter<Note, NoteDTO> {
 		
 		note.setDescription(dto.getDescription());
 		note.setName(dto.getName());
-		note.setTexts(dto.getTexts());
+		note.setText(dto.getText());
 		
 		return note;
 	}
@@ -31,7 +31,7 @@ public class NoteConverter extends DTOConverter<Note, NoteDTO> {
 		dto.setId(entity.getId());
 		dto.setDescription(entity.getDescription());
 		dto.setName(entity.getName());
-		dto.setTexts(entity.getTexts());
+		dto.setText(entity.getText());
 		dto.setDocuments(documentConverter.fromEntities(entity.getDocuments()));
 		
 		return dto;

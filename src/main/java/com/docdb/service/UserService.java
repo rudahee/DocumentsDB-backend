@@ -12,6 +12,7 @@ import com.docdb.exception.UserException;
 import com.docdb.model.entity.User;
 import com.docdb.model.entity.dto.UserDTO;
 import com.docdb.model.enumerated.ErrorCode;
+import com.docdb.model.repository.CustomerRepository;
 import com.docdb.model.repository.UserRepository;
 import com.docdb.model.repository.base.BaseRepository;
 import com.docdb.service.base.BasePersistenceService;
@@ -22,6 +23,9 @@ public class UserService extends BasePersistenceService<User, UserDTO, Integer> 
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CustomerRepository customerRepository;
 	
 	public UserService(BaseRepository<User, Integer> baseRepository, DTOConverter<User, UserDTO> dtoConverter) {
 		super(baseRepository, dtoConverter);
@@ -39,7 +43,11 @@ public class UserService extends BasePersistenceService<User, UserDTO, Integer> 
 				|| userRepository.existsByUsernameIgnoreCase(entity.getUsername())) {
 			throw new UserException(ErrorCode.USER_ALREADY_EXIST);
 		} else {
-			return baseRepository.save(entity);
+			User user = baseRepository.save(entity);
+			
+			customerRepository.save(user.getCustomer());
+			
+			return user;
 		}
 				
 	}

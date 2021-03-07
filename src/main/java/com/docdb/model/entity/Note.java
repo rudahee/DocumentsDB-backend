@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -20,8 +19,7 @@ public class Note extends BaseEntity {
 	private String description;
 	private String name;
 
-	@ElementCollection
-	private List<String> texts;
+	private String text;
 
 	@ManyToOne(optional=true, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="topic_id")
@@ -34,7 +32,6 @@ public class Note extends BaseEntity {
 	public Note() {
 		super();
 		documents = new ArrayList<Document>();
-		texts = new ArrayList<String>();
 	}
 
 	public String getDescription() {
@@ -60,19 +57,6 @@ public class Note extends BaseEntity {
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
-
-	public List<String> getTexts() {
-		return texts;
-	}
-
-	public void setTexts(List<String> texts) {
-		this.texts = texts;
-	}
-	
-	public void addText(String text) {
-		this.texts.add(text);
-	}
-	
 	
 	public String getName() {
 		return name;
@@ -85,6 +69,14 @@ public class Note extends BaseEntity {
 	public void addDocument(Document document) {
 		this.documents.add(document);
 		
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 }

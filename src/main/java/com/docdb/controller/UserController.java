@@ -26,7 +26,9 @@ public class UserController extends BaseController<User, UserDTO, UserService> {
 	public ResponseEntity<?> signUp(@RequestBody UserDTO dto) throws UserException {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(
-					userService.save(super.dtoConverter.fromDto(dto)));
+					dtoConverter.fromEntity(
+							userService.save(super.dtoConverter.fromDto(dto)))
+					);
 		} catch (UserException ex) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(
 					ex.getCode());

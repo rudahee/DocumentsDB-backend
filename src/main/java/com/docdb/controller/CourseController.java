@@ -2,6 +2,7 @@ package com.docdb.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,14 @@ import com.docdb.model.entity.Course;
 import com.docdb.model.entity.dto.CourseDTO;
 import com.docdb.model.enumerated.ErrorCode;
 import com.docdb.service.CourseService;
+import com.docdb.service.util.dto.converters.CourseConverter;
 
 @RestController
 @RequestMapping(path = "/course")
 public class CourseController  extends BaseController<Course, CourseDTO, CourseService> {
+	
+	@Autowired
+	private CourseConverter courseConverter;
 	
 	@PostMapping("/add")
 	public ResponseEntity<?> addCourse(HttpServletRequest request, @RequestBody CourseDTO dto) {
@@ -33,7 +38,7 @@ public class CourseController  extends BaseController<Course, CourseDTO, CourseS
 				throw new JwtException(ErrorCode.JWT_ERROR);
 			}
 			
-			return ResponseEntity.status(HttpStatus.CREATED).body(dtoConverter.fromEntity(service.save(token, dto)));
+			return ResponseEntity.status(HttpStatus.CREATED).body(courseConverter.fromEntityWithoutSubject(service.save(token, dto)));
 		
 		} catch (AddException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getCode());

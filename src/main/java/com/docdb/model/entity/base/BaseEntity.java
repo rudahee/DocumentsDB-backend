@@ -15,8 +15,6 @@ public abstract class BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Integer id;
 	
-	
-	
 	public BaseEntity() {
 		super();
 	}

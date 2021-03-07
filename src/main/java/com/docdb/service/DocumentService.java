@@ -44,24 +44,18 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		
 		if (FileConstants.IMAGE_UNPACKAGED_EXTENSIONS.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
 			
-			System.out.println("IMAGE UNPACKAGED");
 			document = this.saveTiff(mpf, user, note, filename);	
 		
 		} else if (FileConstants.TEXT_EXTENSION.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
 			
-			System.out.println("TEXT EXTENSION");
 			document = this.saveTextFile(mpf, user, note, filename);
 		
 		} else if (FileConstants.PDF_CONTENT_TYPE.toUpperCase().equals(mpf.getContentType().toUpperCase()) || 
 				(!FileConstants.IMAGE_UNPACKAGED_EXTENSIONS.stream().anyMatch(ext -> ext.equals(extension.toUpperCase())))
 				&& mpf.getContentType().startsWith("image/")) {
 			
-			System.out.println("BLOB OR PDF OR IMAGE NO TIFF");
 			document = this.saveBlobForPdfOrImageNonTiff(mpf, user, note, filename);			
-			// FileConstants.PDF_CONTENT_TYPE.toUpperCase().equals(mpf.getContentType().toUpperCase())
-			// 
 		} else {
-			System.out.println("SAVE NON TIFF NON IMAGE NON PDF NON TEXT");
 			document = this.saveNonTextNonTiffNonImageNonPdfFileInFileSystem(mpf, user, note, filename);
 		
 		}

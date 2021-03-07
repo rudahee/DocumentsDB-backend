@@ -22,6 +22,12 @@ public class CourseConverter extends DTOConverter<Course, CourseDTO> {
 		return courseDto;
 	}
 	
+	public CourseDTO fromEntityWithoutSubject(Course course) {
+		CourseDTO courseDto = new CourseDTO(course.getId(), course.getOpen(), course.getAcronym(), course.getName(), course.getDescription(), course.getLastModification());
+
+		return courseDto;
+	}
+	
 	@Override
 	public Course fromDto(CourseDTO dto) {
 		Course course = new Course();

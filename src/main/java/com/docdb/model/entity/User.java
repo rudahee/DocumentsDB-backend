@@ -69,7 +69,7 @@ public class User extends BaseEntity implements UserDetails {
 	
 	public User() {
 		super();
-		this.customer = new Customer();
+		this.customer = new Customer(this);
 		this.setEnableAccount(true);
 		this.roles = new HashSet<UserRole>();
 		this.roles.add(UserRole.USER);
