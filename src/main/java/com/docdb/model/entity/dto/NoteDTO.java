@@ -1,6 +1,9 @@
 package com.docdb.model.entity.dto;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.ElementCollection;
 
 public class NoteDTO extends BaseDTO {
 
@@ -11,19 +14,22 @@ public class NoteDTO extends BaseDTO {
 	}
 
 	private String description;
-	private String text;
+	
+	private List<String> text;
 	private String name;
 	private List<DocumentDTO> documents;
 	
 	public NoteDTO(String description, String text, String name) {
 		super();
 		this.description = description;
-		this.text = text;
+		this.text = new ArrayList<String>();
 		this.name = name;
 	}
 
 	public NoteDTO() {
 		super();
+		this.text = new ArrayList<String>();
+
 	}
 
 	public String getDescription() {
@@ -34,12 +40,16 @@ public class NoteDTO extends BaseDTO {
 		this.description = description;
 	}
 
-	public String getText() {
+	public List<String> getTexts() {
 		return text;
 	}
 
-	public void setText(String text) {
+	public void setTexts(List<String> text) {
 		this.text = text;
+	}
+	
+	public void addText(String text) {
+		this.text.add(text);
 	}
 
 	public String getName() {

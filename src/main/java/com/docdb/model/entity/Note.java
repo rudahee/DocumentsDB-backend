@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -17,16 +18,10 @@ import com.docdb.model.entity.base.BaseEntity;
 public class Note extends BaseEntity {
 	
 	private String description;
-	private String text;
 	private String name;
-	
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	@ElementCollection
+	private List<String> texts;
 
 	@ManyToOne(optional=true, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="topic_id")
@@ -35,13 +30,11 @@ public class Note extends BaseEntity {
     @OneToMany(mappedBy="note")
 	private List<Document> documents;
 	
-    @OneToMany(mappedBy="note")
-	private List<Document> images;
 	
 	public Note() {
 		super();
 		documents = new ArrayList<Document>();
-		images = new ArrayList<Document>();
+		texts = new ArrayList<String>();
 	}
 
 	public String getDescription() {
@@ -52,28 +45,12 @@ public class Note extends BaseEntity {
 		this.description = description;
 	}
 
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
 	public List<Document> getDocuments() {
 		return documents;
 	}
 
 	public void setDocuments(List<Document> documents) {
 		this.documents = documents;
-	}
-
-	public List<Document> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Document> images) {
-		this.images = images;
 	}
 
 	public Topic getTopic() {
@@ -83,8 +60,31 @@ public class Note extends BaseEntity {
 	public void setTopic(Topic topic) {
 		this.topic = topic;
 	}
+
+	public List<String> getTexts() {
+		return texts;
+	}
+
+	public void setTexts(List<String> texts) {
+		this.texts = texts;
+	}
+	
+	public void addText(String text) {
+		this.texts.add(text);
+	}
 	
 	
-	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void addDocument(Document document) {
+		this.documents.add(document);
+		
+	}
 	
 }

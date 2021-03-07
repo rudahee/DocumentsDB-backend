@@ -14,7 +14,9 @@ public enum ErrorCode implements Serializable {
 	USER_ALREADY_EXIST("This user or email already exists"),
 	INCORRECT_LOGIN("Incorrect username or password"),
 	
-	JWT_ERROR("Session failed, re-login");
+	JWT_ERROR("Session failed, re-login"), 
+	
+	FILE_TOO_BIG("Maximun file size is 510Mb");
 	
 	private final String message;
 

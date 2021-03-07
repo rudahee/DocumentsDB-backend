@@ -5,6 +5,8 @@ import java.sql.Blob;
 public class DocumentDTO extends BaseDTO {
 
 	private Blob data;
+	private String path;
+	
 	private Long size;
 	private String name;
 	private String contentType;
@@ -51,5 +53,13 @@ public class DocumentDTO extends BaseDTO {
 	
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

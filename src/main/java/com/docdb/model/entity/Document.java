@@ -1,5 +1,6 @@
 package com.docdb.model.entity;
 
+import java.io.Serializable;
 import java.sql.Blob;
 
 import javax.persistence.CascadeType;
@@ -11,11 +12,14 @@ import javax.persistence.OneToOne;
 
 import com.docdb.model.entity.base.BaseEntity;
 
-@SuppressWarnings("serial")
 @Entity
-public class Document extends BaseEntity {
+public class Document extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = -3194606013743034676L;
 
 	private Blob data;
+	private String path;
+	
 	private Long size;
 	private String name;
 	private String contentType;
@@ -78,6 +82,14 @@ public class Document extends BaseEntity {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 
