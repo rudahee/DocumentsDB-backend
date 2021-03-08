@@ -17,8 +17,13 @@ public class DocumentConverter extends DTOConverter<Document, DocumentDTO> {
 
 	@Override
 	public DocumentDTO fromEntity(Document entity) {
-		// TODO Auto-generated method stub
-		return null;
+		DocumentDTO dto = new DocumentDTO();
+		dto.setContentType(entity.getContentType());
+		dto.setName(entity.getName());
+		dto.setPath(entity.getPath());
+		dto.setSize(entity.getSize());
+		
+		return dto;
 	}
 
 }

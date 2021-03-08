@@ -4,7 +4,6 @@ import java.sql.Blob;
 
 public class DocumentDTO extends BaseDTO {
 
-	private Blob data;
 	private String path;
 	
 	private Long size;
@@ -15,22 +14,13 @@ public class DocumentDTO extends BaseDTO {
 		super();
 	}
 	
-	public DocumentDTO(Blob data, Long size, String name, String contentType) {
+	public DocumentDTO(Long size, String name, String contentType) {
 		super();
-		this.data = data;
 		this.size = size;
 		this.name = name;
 		this.contentType = contentType;
 	}
-	
-	public Blob getData() {
-		return data;
-	}
-	
-	public void setData(Blob data) {
-		this.data = data;
-	}
-	
+
 	public Long getSize() {
 		return size;
 	}
