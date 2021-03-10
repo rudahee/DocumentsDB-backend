@@ -1,7 +1,9 @@
 package com.docdb.model.entity.dto;
 
-import java.sql.Blob;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_NULL)
 public class DocumentDTO extends BaseDTO {
 
 	private String path;
@@ -9,16 +11,17 @@ public class DocumentDTO extends BaseDTO {
 	private Long size;
 	private String name;
 	private String contentType;
+	private String extension;
+	private Boolean isBlob;
 	
 	public DocumentDTO() {
 		super();
 	}
 	
-	public DocumentDTO(Long size, String name, String contentType) {
+	public DocumentDTO(Long size, String name) {
 		super();
 		this.size = size;
 		this.name = name;
-		this.contentType = contentType;
 	}
 
 	public Long getSize() {
@@ -52,4 +55,21 @@ public class DocumentDTO extends BaseDTO {
 	public void setPath(String path) {
 		this.path = path;
 	}
+
+	public Boolean getIsBlob() {
+		return isBlob;
+	}
+
+	public void setIsBlob(Boolean isBlob) {
+		this.isBlob = isBlob;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
 }

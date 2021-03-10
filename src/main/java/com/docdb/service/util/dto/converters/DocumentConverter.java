@@ -18,10 +18,13 @@ public class DocumentConverter extends DTOConverter<Document, DocumentDTO> {
 	@Override
 	public DocumentDTO fromEntity(Document entity) {
 		DocumentDTO dto = new DocumentDTO();
+		dto.setId(entity.getId());
 		dto.setContentType(entity.getContentType());
 		dto.setName(entity.getName());
 		dto.setPath(entity.getPath());
 		dto.setSize(entity.getSize());
+		dto.setIsBlob(entity.getIsBlob());
+		dto.setExtension(entity.getExtension());
 		
 		return dto;
 	}

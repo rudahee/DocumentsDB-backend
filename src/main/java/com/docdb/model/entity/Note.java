@@ -18,7 +18,6 @@ public class Note extends BaseEntity {
 	
 	private String description;
 	private String name;
-
 	private String text;
 
 	@ManyToOne(optional=true, cascade=CascadeType.ALL, fetch=FetchType.LAZY)

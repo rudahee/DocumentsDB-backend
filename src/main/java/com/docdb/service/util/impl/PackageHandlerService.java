@@ -58,7 +58,7 @@ public class PackageHandlerService {
 		return output;
 	}
 	
-	public byte[] unpackageTextFile(String path, byte[] data) throws DataFormatException, IOException {
+	public byte[] unpackageTextFile(byte[] data) throws DataFormatException, IOException {
 		Inflater inflater = new Inflater();    
 		inflater.setInput(data);  
 		   

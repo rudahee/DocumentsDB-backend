@@ -19,9 +19,10 @@ public class Document extends BaseEntity implements Serializable {
 
 	private Blob data;
 	private String path;
-	
+	private Boolean isBlob;
 	private Long size;
 	private String name;
+	private String extension;
 	private String contentType;
 
 	
@@ -90,6 +91,22 @@ public class Document extends BaseEntity implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public Boolean getIsBlob() {
+		return isBlob;
+	}
+
+	public void setIsBlob(Boolean isBlob) {
+		this.isBlob = isBlob;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
 	}
 
 

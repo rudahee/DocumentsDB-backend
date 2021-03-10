@@ -2,6 +2,11 @@ package com.docdb.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.zip.DataFormatException;
+
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,30 +40,37 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		super(baseRepository, dtoConverter);
 	}
 	
-	public Document saveDocument(MultipartFile mpf, String user, String note, String extension) throws IOException {
+	public Document saveDocument(MultipartFile mpf, String user, String note, String extension, String type) throws IOException {
 		Document document;
 		Note noteEntity;
 		
 		String filename = mpf.getOriginalFilename().replaceAll(FileConstants.REGEX_NAME, "_");
+
 		
 		
 		if (FileConstants.IMAGE_UNPACKAGED_EXTENSIONS.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
 			
-			document = this.saveTiff(mpf, user, note, filename);	
+			document = this.saveTiff(mpf, user, note, filename);
+			document.setIsBlob(false);
 		
 		} else if (FileConstants.TEXT_EXTENSION.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
 			
 			document = this.saveTextFile(mpf, user, note, filename);
-		
-		} else if (FileConstants.PDF_CONTENT_TYPE.toUpperCase().equals(mpf.getContentType().toUpperCase()) || 
-				(!FileConstants.IMAGE_UNPACKAGED_EXTENSIONS.stream().anyMatch(ext -> ext.equals(extension.toUpperCase())))
-				&& mpf.getContentType().startsWith("image/")) {
+			document.setIsBlob(false);
 			
-			document = this.saveBlobForPdfOrImageNonTiff(mpf, user, note, filename);			
+		} else if (FileConstants.PDF_CONTENT_TYPE.toUpperCase().equals(type.toUpperCase()) 
+				|| type.toUpperCase().startsWith("image/".toUpperCase())) {
+			
+			document = this.saveBlobForPdfOrImageNonTiff(mpf, user, note, filename);	
+			document.setIsBlob(true);
+			
 		} else {
 			document = this.saveNonTextNonTiffNonImageNonPdfFileInFileSystem(mpf, user, note, filename);
-		
+			document.setIsBlob(false);
 		}
+		
+		document.setContentType(type);
+		document.setExtension(extension);
 		
 		noteEntity = noteRepository.findById(Integer.parseInt(note)).get();
 		
@@ -71,7 +83,26 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		return document;
 	}
 	
-	public Document saveTextFile(MultipartFile mpf, String user, String note, String filename) throws IOException {
+	public Document getDocument(Integer id) throws IOException, DataFormatException, SerialException, SQLException {
+		Document document = baseRepository.findById(id).get();
+		
+		if (document.getIsBlob()) {
+			return document;			
+		} else {
+			String path = document.getPath();
+			
+			Blob blob = fhService.getBlobFromFile(path+document.getName(), document.getExtension());
+			
+			document.setData(blob);
+		}
+	
+		return document;
+		
+		
+	}
+	
+	
+	private Document saveTextFile(MultipartFile mpf, String user, String note, String filename) throws IOException {
 		Document document = new Document();
 		String path = fhService.createDir(user, note);
 		
@@ -85,7 +116,7 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		return document;
 	}
 	
-	public Document saveTiff(MultipartFile mpf, String user, String note, String filename) throws IOException {
+	private Document saveTiff(MultipartFile mpf, String user, String note, String filename) throws IOException {
 		Document document = new Document();
 		String path = fhService.createDir(user, note);
 
@@ -103,7 +134,7 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		return document;		
 	}
 	
-	public Document saveNonTextNonTiffNonImageNonPdfFileInFileSystem(MultipartFile mpf, String user, String note, String filename) throws IOException {
+	private Document saveNonTextNonTiffNonImageNonPdfFileInFileSystem(MultipartFile mpf, String user, String note, String filename) throws IOException {
 		Document document = new Document();
 		String path = fhService.createDir(user, note);
 		
@@ -117,7 +148,7 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		return document;
 	}
 	
-	public Document saveBlobForPdfOrImageNonTiff(MultipartFile mpf, String user, String note, String filename) throws IOException {
+	private Document saveBlobForPdfOrImageNonTiff(MultipartFile mpf, String user, String note, String filename) throws IOException {
 		Document document = new Document();
 		String path = fhService.createDir(user, note);
 		
@@ -129,6 +160,5 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		document.setSize(mpf.getSize());
 		
 		return document;
-	}
-	
+	}	
 }

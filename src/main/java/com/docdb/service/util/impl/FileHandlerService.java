@@ -8,9 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.zip.DataFormatException;
 
 import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +22,24 @@ import com.docdb.service.common.FileConstants;
 
 @Service
 public class FileHandlerService {
+	
+	@Autowired
+	private PackageHandlerService phService;
+	
+	public Blob getBlobFromFile(String path, String extension) throws IOException, SerialException, SQLException, DataFormatException {
+		
+		byte[] data = Files.readAllBytes(Path.of(path)); 
+		
+
+		if (FileConstants.TEXT_EXTENSION.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
+			data = phService.unpackageTextFile(data);
+		}
+		
+		Blob blob = new SerialBlob(data);
+		
+		return blob;
+	}
+	
 	
 	public Blob createBlobForProfileImage(MultipartFile mpf) {
 		

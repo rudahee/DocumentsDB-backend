@@ -1,9 +1,14 @@
 package com.docdb.controller;
 
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.zip.DataFormatException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +41,7 @@ public class DocumentController  extends BaseController<Document, DocumentDTO, D
 
 	@PostMapping("/{note}")
 	public ResponseEntity<?> save(HttpServletRequest request, @PathVariable String note, @RequestParam MultipartFile mpf, 
-					@RequestParam String extension) throws UserException, IOException, InterruptedException {
+					@RequestParam String extension, @RequestParam String type) throws UserException, IOException, InterruptedException {
 		
 		ResponseEntity<?> response;
 		
@@ -46,7 +51,7 @@ public class DocumentController  extends BaseController<Document, DocumentDTO, D
 			}
 			
 			String user = jwtToken.getUserFromToken(request.getHeader("Authorization").split(" ")[1]).getId().toString();			
-			service.saveDocument(mpf, user, note, extension);
+			service.saveDocument(mpf, user, note, extension, type);
 			
 			response = ResponseEntity.status(HttpStatus.CREATED).body(ErrorCode.NO_ERROR);
 		
@@ -70,6 +75,28 @@ public class DocumentController  extends BaseController<Document, DocumentDTO, D
 		} catch(Exception e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorCode.INDETERMINATE_ERROR);
 		}
+	}
+	
+	@GetMapping("/get/data/{id}")
+	public ResponseEntity<?> getData(HttpServletResponse response, @PathVariable Integer id) throws SQLException, IOException, DataFormatException {
+		
+		Document doc = service.getDocument(id);
+		
+		Blob blob = doc.getData();
+		
+		IOUtils.copy(blob.getBinaryStream(), response.getOutputStream());
+		
+		response.addHeader("Content-Type", doc.getContentType());
+		response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", doc.getName()));
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(dtoConverter.fromEntity(doc));
+	}
+	
+	@GetMapping("/get/json/{id}")
+	public ResponseEntity<?> getJson(@PathVariable Integer id) throws SQLException, IOException, DataFormatException {
+		
+		Document doc = service.getDocument(id);
+		
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(dtoConverter.fromEntity(doc));
 	}
 }
 
