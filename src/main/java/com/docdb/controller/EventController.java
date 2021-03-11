@@ -11,7 +11,6 @@ import com.docdb.service.EventService;
 @RestController
 @RequestMapping(path = "/event")
 public class EventController  extends BaseController<Event, EventDTO, EventService> {
-
-
+	//Not implemented Yet
 }
 

@@ -47,23 +47,26 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		String filename = mpf.getOriginalFilename().replaceAll(FileConstants.REGEX_NAME, "_");
 
 		
-		
+		// If image if TIFF or TIF
 		if (FileConstants.IMAGE_UNPACKAGED_EXTENSIONS.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
 			
 			document = this.saveTiff(mpf, user, note, filename);
 			document.setIsBlob(false);
 		
+		// If its a text file
 		} else if (FileConstants.TEXT_EXTENSION.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
 			
 			document = this.saveTextFile(mpf, user, note, filename);
 			document.setIsBlob(false);
 			
+		// If its a image or pdf	
 		} else if (FileConstants.PDF_CONTENT_TYPE.toUpperCase().equals(type.toUpperCase()) 
 				|| type.toUpperCase().startsWith("image/".toUpperCase())) {
 			
 			document = this.saveBlobForPdfOrImageNonTiff(mpf, user, note, filename);	
 			document.setIsBlob(true);
-			
+		
+		// All other files
 		} else {
 			document = this.saveNonTextNonTiffNonImageNonPdfFileInFileSystem(mpf, user, note, filename);
 			document.setIsBlob(false);
@@ -107,10 +110,11 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		String path = fhService.createDir(user, note);
 		
 		document.setName(filename);
-		document.setPath(path);
+		document.setPath(path); 
 		document.setContentType(mpf.getContentType());
 		document.setSize(mpf.getSize());
 		
+		// Package text file
 		fhService.createPackagedTextInFileSystem(phService.packageTextFile(path, mpf.getBytes()), path, filename);
 		
 		return document;
@@ -120,6 +124,7 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		Document document = new Document();
 		String path = fhService.createDir(user, note);
 
+		// Create a temporal file
 		File file = fhService.createTiffInFileSystem(mpf);
 		
 		document.setName(filename);
@@ -127,6 +132,7 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		document.setContentType(mpf.getContentType());
 		document.setSize(mpf.getSize());
 		
+		// Package a tiff from temporal file, and write in definitive file
 		phService.packageTiff(FileConstants.TMP_ROUTE + filename, path+filename);
 		
 		file.delete();
@@ -138,6 +144,7 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		Document document = new Document();
 		String path = fhService.createDir(user, note);
 		
+		// Save in File System
 		fhService.createNonTextNonTiffNonImageNonPdfFileInFileSystem(mpf.getBytes(), path, filename);
 		
 		document.setName(filename);
@@ -152,6 +159,7 @@ public class DocumentService extends BasePersistenceService<Document, DocumentDT
 		Document document = new Document();
 		String path = fhService.createDir(user, note);
 		
+		// Save in Database
 		document.setData(fhService.createBlobForPdfOrImageNonTiff(mpf));
 		
 		document.setName(filename);

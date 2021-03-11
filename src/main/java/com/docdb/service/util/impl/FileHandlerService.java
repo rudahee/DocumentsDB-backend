@@ -28,9 +28,10 @@ public class FileHandlerService {
 	
 	public Blob getBlobFromFile(String path, String extension) throws IOException, SerialException, SQLException, DataFormatException {
 		
+		
 		byte[] data = Files.readAllBytes(Path.of(path)); 
 		
-
+		// Only if data is text we need uncompress data
 		if (FileConstants.TEXT_EXTENSION.stream().anyMatch(ext -> ext.equals(extension.toUpperCase()))) {
 			data = phService.unpackageTextFile(data);
 		}
@@ -57,6 +58,9 @@ public class FileHandlerService {
 	}
 	
 	public Blob createBlobForPdfOrImageNonTiff(MultipartFile mpf) {
+		// the pdfs or the images that are not tiff are saved in the database, 
+		// therefore we are only going to convert the multiparfile into a blob
+		
 		Blob blob = null;
 		try {
 			if (!mpf.isEmpty()) {
@@ -71,8 +75,9 @@ public class FileHandlerService {
 	}
 	
 	public File createTiffInFileSystem(MultipartFile mpf) throws IOException {
-		File tmpFile = new File(FileConstants.TMP_ROUTE, mpf.getOriginalFilename());
 		
+		// We need to write TIFF in filesystem in temporal file to package it.
+		File tmpFile = new File(FileConstants.TMP_ROUTE, mpf.getOriginalFilename());
 		tmpFile.createNewFile(); 
 		
 		OutputStream os = new FileOutputStream(tmpFile);
@@ -85,6 +90,8 @@ public class FileHandlerService {
 	}
 	
 	public void createPackagedTextInFileSystem(byte[] data, String path, String filename) throws IOException {
+		// Save file in file system
+		
 		File file = new File(path + "/" + filename);
 		
 		file.createNewFile();
@@ -95,6 +102,8 @@ public class FileHandlerService {
 	}
 
 	public void createNonTextNonTiffNonImageNonPdfFileInFileSystem(byte[] data, String path, String filename) throws IOException {
+		// Save file in file system
+		
 		File file = new File(path + "/" + filename);
 		
 		file.createNewFile();
@@ -105,6 +114,8 @@ public class FileHandlerService {
 	}
 	
 	public String createDir(String user, String note) throws IOException {
+		// We need create dir for user and note if not exists
+		
 		Path path = Paths.get(FileConstants.LOCAL_ROUTE + user + "/" + note + "/");
 		
 		if (Files.notExists(path)) {

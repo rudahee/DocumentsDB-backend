@@ -23,7 +23,7 @@ public class DocumentsDbApplication {
                 registry.addMapping("/**")
                 	.allowedOrigins("*")
                 	.allowedMethods("GET", "POST","PUT", "DELETE")
-                	.exposedHeaders("Authorization", "Content-Type", "Content-Disposition");
+                	.exposedHeaders("Authorization", "Content-Type", "Content-Disposition"); // Needed for add headers to response
             }
         };
     }

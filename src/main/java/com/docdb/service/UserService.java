@@ -1,5 +1,6 @@
 package com.docdb.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.docdb.exception.UserException;
+import com.docdb.model.entity.Course;
 import com.docdb.model.entity.User;
 import com.docdb.model.entity.dto.UserDTO;
 import com.docdb.model.enumerated.ErrorCode;
+import com.docdb.model.repository.CourseRepository;
 import com.docdb.model.repository.CustomerRepository;
 import com.docdb.model.repository.UserRepository;
 import com.docdb.model.repository.base.BaseRepository;
@@ -23,6 +26,9 @@ public class UserService extends BasePersistenceService<User, UserDTO, Integer> 
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CourseRepository courseRepository;
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -66,6 +72,27 @@ public class UserService extends BasePersistenceService<User, UserDTO, Integer> 
 			}
 			
 		}
+	}
+	
+	Long quota;
+	public Long getQuota(Integer id) {
+		this.quota = 0L;
+		List<Course> courses = courseRepository.getCoursesFromUser(id);
+		
+		
+		courses.forEach(course -> {
+			course.getSubjects().forEach(subject -> {
+				subject.getTopics().forEach(topic -> {
+					topic.getNotes().forEach(note -> {
+						note.getDocuments().forEach(document -> {
+							this.quota = this.quota + document.getSize();
+						});
+					});
+				});
+			});
+		});
+		
+		return this.quota;
 	}
 	
 	

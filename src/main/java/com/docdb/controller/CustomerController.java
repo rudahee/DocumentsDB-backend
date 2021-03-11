@@ -21,11 +21,10 @@ import com.docdb.service.CustomerService;
 @RequestMapping(path = "/customer")
 public class CustomerController extends BaseController<Customer, CustomerDTO, CustomerService> {
 
-
-
 	@PostMapping("/image")
 	public ResponseEntity<?> addImageProfile(HttpServletRequest request, @RequestParam MultipartFile image) throws UserException {
 		
+		// If no erros, response: OK
 		if (service.addDocument(image, request.getUserPrincipal().getName()) != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(ErrorCode.NO_ERROR);
 		} else {

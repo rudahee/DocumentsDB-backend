@@ -32,6 +32,7 @@ public class CourseController  extends BaseController<Course, CourseDTO, CourseS
 		String token;
 		
 		try {
+			// If doesnt exists JWT, throw a JWTException, with customize error code
 			if (request.getHeader("Authorization") != null) {
 				token = request.getHeader("Authorization").split(" ")[1]; 
 			} else {
@@ -52,6 +53,7 @@ public class CourseController  extends BaseController<Course, CourseDTO, CourseS
 		String token;
 		
 		try {
+			// If doesnt exists JWT, throw a JWTException, with customize error code
 			if (request.getHeader("Authorization") != null) {
 				token = request.getHeader("Authorization").split(" ")[1]; 
 			} else {

@@ -46,6 +46,7 @@ public class DocumentController  extends BaseController<Document, DocumentDTO, D
 		ResponseEntity<?> response;
 		
 		try {
+			// File can be too big.
 			if (mpf.getSize() > 4278190080L) {
 				response = ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE).body(ErrorCode.FILE_TOO_BIG);
 			}
@@ -84,10 +85,13 @@ public class DocumentController  extends BaseController<Document, DocumentDTO, D
 		
 		Blob blob = doc.getData();
 		
+		// Copy blob to Response
 		IOUtils.copy(blob.getBinaryStream(), response.getOutputStream());
 		
+		// Headers in response contains Content-Type and Content-Disposition with filename
 		response.addHeader("Content-Type", doc.getContentType());
 		response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", doc.getName()));
+		
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(dtoConverter.fromEntity(doc));
 	}
 	

@@ -3,15 +3,18 @@ package com.docdb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.docdb.controller.base.BaseController;
 import com.docdb.exception.UserException;
 import com.docdb.model.entity.User;
 import com.docdb.model.entity.dto.LoginDataReceivedDTO;
+import com.docdb.model.entity.dto.QuotaDTO;
 import com.docdb.model.entity.dto.UserDTO;
 import com.docdb.service.UserService;
 
@@ -44,6 +47,17 @@ public class UserController extends BaseController<User, UserDTO, UserService> {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(
 					ex.getCode());
 		}
+	}
+	
+	@GetMapping("/quotas")
+	public ResponseEntity<?> GetQuotas(@RequestParam Integer id) {
+		
+		QuotaDTO quota = new QuotaDTO();
+		
+		quota.setSize((this.userService.getQuota(id)/1024)/1024);
+		quota.setUnit("MB");
+		
+		return ResponseEntity.status(HttpStatus.OK).body(quota);
 	}
 
 }

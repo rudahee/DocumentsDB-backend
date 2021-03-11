@@ -16,4 +16,6 @@ public interface UserRepository extends BaseRepository<User, Integer>{
 	Boolean existsByEmailIgnoreCase(String email);
 
 	Optional<User> findByUsernameAndPassword(String username, String password);
+	
+	
 }

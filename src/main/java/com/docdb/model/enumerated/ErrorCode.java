@@ -7,6 +7,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode implements Serializable {
 	
+	/*
+	 * Custom Errors Messages
+	 */
+	
 	NO_ERROR("OK"),
 	INDETERMINATE_ERROR("Unknown error. Contact an administrator"),
 	
